@@ -26,14 +26,14 @@
 			</div>
 
 
-			<div class="col-md-3 col-sm-12 col-xs-12" style="position: sticky; top: 100px">
+			<div class="col-md-3 col-sm-12 col-xs-12" style="position: sticky; top: 100px;">
         <community-sidebar></community-sidebar>
 		
 			</div>
 		</div>
 	</div>
 </div>
-		<infinite-loading @infinite="getReviews" spinner="waveDots" :distance="500" ></infinite-loading>
+		<infinite-loading @infinite="getReviews" spinner="waveDots" :distance="700" ></infinite-loading>
 		</div>
 </template>
 

@@ -4,7 +4,7 @@
 		<nav class="navbar navbar-default navbar-custom">
       <!-- Brand and toggle get grouped for better mobile display -->
 				<div class="navbar-header logo">
-          <div class="navbar-toggle" data-toggle="collapse" data-target="#bs-example-navbar-collapse-1">
+          <div @click.prevent="" ref="target" class="navbar-toggle" data-toggle="collapse" data-target="#bs-example-navbar-collapse-1">
             <span class="sr-only">Toggle navigation</span>
             <div id="nav-icon1">
             <span></span>
@@ -27,30 +27,30 @@
 							
 						</li>
 						<li class="dropdown first">
-							<a @click.prevent="$router.push({name: 'MovieList'}).catch(err => {})" class="btn btn-default dropdown-toggle lv1" data-toggle="dropdown" data-hover="dropdown">
+							<a @click.prevent="[$router.push({name: 'MovieList'}).catch(err => {}), $refs.target.click()]" class="btn btn-default dropdown-toggle lv1" data-toggle="dropdown" data-hover="dropdown">
 							movies</a>
 							
 						</li>
 						<li class="dropdown first">
-							<a @click.prevent="$router.push({name: 'Celebs'}).catch(err => {})" class="btn btn-default dropdown-toggle lv1" data-toggle="dropdown" data-hover="dropdown">
+							<a @click.prevent="[$router.push({name: 'Celebs'}).catch(err => {}), $refs.target.click()]" class="btn btn-default dropdown-toggle lv1" data-toggle="dropdown" data-hover="dropdown">
 							celebrities</a>
 							
 						</li>
 						<li class="dropdown first">
-							<a @click.prevent="$router.push({name: 'Community'}).catch(err => {})" class="btn btn-default dropdown-toggle lv1" data-toggle="dropdown" data-hover="dropdown">
+							<a @click.prevent="[$router.push({name: 'Community'}).catch(err => {}), $refs.target.click()]" class="btn btn-default dropdown-toggle lv1" data-toggle="dropdown" data-hover="dropdown">
 							Community</a>
 							
 						</li>
-						<li @click.prevent="" class="dropdown first">
-							<a @click.prevent="$router.push({name: 'UserProfile', params: {username: username}}).catch(err => {})" class="btn btn-default dropdown-toggle lv1" data-toggle="dropdown" data-hover="dropdown">
+						<li v-if="isLogin" class="dropdown first">
+							<a @click.prevent="[$router.push({name: 'UserProfile', params: {username: username}}).catch(err => {}), $refs.target.click()]" class="btn btn-default dropdown-toggle lv1" data-toggle="dropdown" data-hover="dropdown">
 							User Profile</a>
 	
 						</li>
 					</ul>
 					<ul class="nav navbar-nav flex-child-menu menu-right">
 					
-						<li @click.prevent="showModal" v-if="!isLogin" class=""><a href="#">Log in</a></li>
-						<li @click.prevent="showModal" v-if="!isLogin" class="btn signupLink"><a href="#">sign up</a></li>
+						<li @click.prevent="showModal('loginChecked')" v-if="!isLogin" class=""><a href="#">Log in</a></li>
+						<li @click.prevent="showModal('signupChecked')" v-if="!isLogin" class="btn signupLink"><a href="#">sign up</a></li>
 					
 						<li v-if="isLogin"><a @click.prevent="$router.push({name: 'UserProfile', params: {username: username}}).catch(err => {})" href="#">My Page</a></li>
 						<li v-if="isLogin"><a @click.prevent="logout" href="#">Logout</a></li>
@@ -77,6 +77,8 @@ export default {
 	data () {
 		return {
 			isLogin: false,
+			isCollapsed: false,
+			open: false
 		}
 	},
 	methods: {
@@ -88,10 +90,10 @@ export default {
 			this.$router.push({name: 'Home'})
       this.$router.go()
 		},
-		showModal () {
+		showModal (value) {
       this.$modal.show(
       LoginForm2,  
-      { text: 'This text is passed as a property' },
+      { checkedValue: value },
       { name: 'loginModal',
 				draggable: true,
         adaptive: true,
@@ -119,6 +121,25 @@ export default {
       this.isLogin = true
     }
 
+	},
+	mounted () {
+		const box = this.$refs.target
+		let cnt = 0
+		window.addEventListener('click', function (e) {
+			if (box.contains(e.target)) {
+				// console.log('click toggle target')
+				this.isCollapsed = !this.isCollapsed
+				cnt = 0
+			}	else if (!box.contains(e.target) && cnt == 0 && this.isCollapsed) {				
+				box.click()
+				cnt += 1
+			}
+			// console.log(e.target)
+			// console.log(box.contains(e.target), cnt, 'isCollapsed:', this.isCollapsed)			
+		})
+
+		
+	
 	}
 }
 </script>

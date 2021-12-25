@@ -35,7 +35,7 @@
 			</div>
 			<div class="col-md-8 col-sm-12 col-xs-12">
 				<div class="movie-single-ct main-content">
-					<h1 class="bd-hd" id="movie-title" :style="{'color': color}">{{ movie.title }}<span>{{ movie.release_date.slice(0, 4) }}</span> </h1>
+					<h1 class="bd-hd" id="movie-title" :style="{'color': color, 'fontSize': fontSize + 'px'}">{{ movie.title }}<span>{{ movie.release_date.slice(0, 4) }}</span> </h1>
 					
 					<div class="social-btn" :style="{'overflow': 'hidden', 'height': '100%', 'padding-top': paddingTop}">
 					
@@ -142,6 +142,7 @@ export default {
 			marginLeft: 0,			
 			backgroudColor: null,
 			paddingTop: null,
+			fontSize: null,
 		
     }
   },
@@ -154,6 +155,11 @@ export default {
 			.then(res => {
 				this.movie = res.data
 				// console.log(this.movie)
+				if (this.movie.title.length > 19) {
+					this.fontSize = 30
+				} else {
+					this.fontSize = null
+				}
 			})
 			.catch(err => {
 				console.log(err)
@@ -224,16 +230,15 @@ export default {
         },
       )
 		}		
-	},
-		
+	},		
   created () {
 		this.getMovie()
 		if (window.innerWidth <= 991) {
 			this.handler()
-		}
+		}		
 	},
   mounted () {
-		window.addEventListener('resize', this.handler)
+		window.addEventListener('resize', this.handler)		
   }
 }
 

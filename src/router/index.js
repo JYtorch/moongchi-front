@@ -1,18 +1,31 @@
 import Vue from 'vue'
 import VueRouter from 'vue-router'
-import Home from '../views/Home.vue'
-import MovieList from '../views/MovieList.vue'
-import MovieListSearch from '../views/MovieListSearch.vue'
-import MovieDetail from '../views/MovieDetail.vue'
-import Community from '../views/Community.vue'
-import CommunitySearch from '../views/CommunitySearch.vue'
-import ReviewForm from '@/components/Community/ReviewForm.vue'
-import ReviewDetail from '../views/ReviewDetail.vue'
-import CommingSoon from '../views/CommingSoon.vue'
-import UserProfile from '../views/UserProfile.vue'
-import NotFoundComponent from '../views/NotFoundComponent.vue'
-import Celebs from '../views/Celebs.vue'
+// import Home from '../views/Home.vue'
+// import MovieList from '../views/MovieList.vue'
+// import MovieListSearch from '../views/MovieListSearch.vue'
+// import MovieDetail from '../views/MovieDetail.vue'
+// import Community from '../views/Community.vue'
+// import CommunitySearch from '../views/CommunitySearch.vue'
+// import ReviewForm from '@/components/Community/ReviewForm.vue'
+// import ReviewDetail from '../views/ReviewDetail.vue'
+// import CommingSoon from '../views/CommingSoon.vue'
+// import UserProfile from '../views/UserProfile.vue'
+// import NotFoundComponent from '../views/NotFoundComponent.vue'
+// import Celebs from '../views/Celebs.vue'
 import store from "../store/index";
+const Home = () => import(/* webpackChunkName: "home" */ '../views/Home.vue');
+const MovieList = () => import(/* webpackChunkName: "movielist" */ '../views/MovieList.vue');
+const MovieListSearch = () => import(/* webpackChunkName: "movielistsearch" */ '../views/MovieListSearch.vue');
+const MovieDetail = () => import(/* webpackChunkName: "moviedetail" */ '../views/MovieDetail.vue');
+const Community = () => import(/* webpackChunkName: "community" */ '../views/Community.vue');
+const CommunitySearch = () => import(/* webpackChunkName: "communitysearch" */ '../views/CommunitySearch.vue');
+const ReviewForm = () => import(/* webpackChunkName: "reviewform" */ '@/components/Community/ReviewForm.vue');
+const ReviewDetail = () => import(/* webpackChunkName: "reviewdetail" */ '../views/ReviewDetail.vue');
+const CommingSoon = () => import(/* webpackChunkName: "commingsoon" */ '../views/CommingSoon.vue');
+const UserProfile = () => import(/* webpackChunkName: "userprofile" */ '../views/UserProfile.vue');
+const NotFoundComponent = () => import(/* webpackChunkName: "notfoundcomponent" */ '../views/NotFoundComponent.vue');
+const Celebs = () => import(/* webpackChunkName: "celebs" */ '../views/Celebs.vue');
+
 
 Vue.use(VueRouter)
 
@@ -75,6 +88,7 @@ const routes = [
         next()
       } else {
         alert('로그인이 필요합니다.')
+        next('/')
       }      
     }
   },
@@ -91,7 +105,8 @@ const routes = [
       if (store.state.token) {
         next()
       } else {
-        alert('로그인이 필요합니다.')        
+        alert('로그인이 필요합니다.')
+        next('/')    
       }
     }
   },

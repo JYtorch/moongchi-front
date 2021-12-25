@@ -61,7 +61,7 @@
         </span>
         <a id="moreBtn" v-show="moreItems" @click.prevent="getMoreComments" href=""><button>더보기</button></a>
       </div>
-     <one-line-form @noti-one-line-comment="getData" v-show="(isLogin) && (!writer)"></one-line-form>
+     <one-line-form @noti-one-line-comment="getData" v-show="(isLogin) && (writer)"></one-line-form>
   </div>
 
 

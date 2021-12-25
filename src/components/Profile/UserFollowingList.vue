@@ -1,6 +1,8 @@
 <template>
   <div class="container">
-    <h3>Followings</h3>
+    <div>
+      <h3>Followings <a @click.prevent="hide" href="" class="close">X</a></h3>
+    </div>
     <hr>
     <ul>
       <div class="user"
@@ -30,10 +32,10 @@ export default {
   },
   methods: {
     show () {
-        this.$modal.show('my-first-modal');
+        this.$modal.show('UserFollowingList');
     },
     hide () {
-        this.$modal.hide('my-first-modal');
+        this.$modal.hide('UserFollowingList');
     },
     setToken: function () {
       const token = localStorage.getItem('jwt')
@@ -119,6 +121,16 @@ h5 {
 .flbtn {
   background:grey;
 }
+.close {
+  display:inline-block;
+  
+} 
+/* .close:after {
+  display: inline-block;
+  content: "\00d7"; 
+  font-size:15pt;
+} */
+
 @media screen and (max-width: 320px) {
   .container {
     width: 100vw;

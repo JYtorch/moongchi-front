@@ -29,10 +29,13 @@
 import PlaylistMovies from '../components/Home/PlaylistMovies.vue'
 import popularMovies from '../components/Home/PopularMovies.vue'
 import RecommendedMovies from '../components/Home/RecommendedMovies.vue'
-import SliderMovieItems from '../components/Home/SliderMovieItems.vue'
+// import SliderMovieItems from '../components/Home/SliderMovieItems.vue'
 // @ is an alias to /src
 
 // const api = 'http://127.0.0.1:8000/api/v1/movies/mainmovies/'
+
+const SliderMovieItems = () => import('../components/Home/SliderMovieItems.vue');
+
 
 export default {
   name: 'Home',
@@ -60,7 +63,7 @@ export default {
 }
 </script>
 
-<style scoped>
+<style>
 body {
   overflow-y: scroll;
   scroll-behavior: smooth;

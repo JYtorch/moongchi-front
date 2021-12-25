@@ -3,22 +3,22 @@
     <div class="comment-box">
       
       <div class="author-box">
-        <a @click.prevent="$router.push({ name: 'UserProfile', params: { username: comment.user.username }})" href=""><h6>{{ comment.user.username }}</h6></a>             
-      </div>
-      <div class="content-box">
-        <p>{{ comment.content }}</p>
-      </div>
-      <div class="btn-box">
+        <a @click.prevent="$router.push({ name: 'UserProfile', params: { username: comment.user.username }})" href=""><h6>{{ comment.user.username }}</h6></a>
         <div class="date-box">
           <span id="time" class="time">
             {{ comment.created_at.slice(0, 10) + '   ' + comment.created_at.slice(11, 19)}}
           </span>
-          <a id="delete-btn" @click.prevent="deleteComment" href="" class="time">X</a>
-        </div>
-        <div id="like-box">
+          <a id="delete-btn" @click.prevent="deleteComment" href="" class="time">X</a>          
           <a id="report-btn" @click.prevent="reportComment" href="" v-show="isLogin">
             <h6 class="time">신고</h6>
           </a>
+        </div>        
+      </div>
+      <div class="content-box">
+        <p>{{ comment.content }}</p>
+      </div>
+      <div class="btn-box">        
+        <div id="like-box">          
           <a id="comment-like-btn" @click.prevent="likeComment" href="" class="time">
             <font-awesome-icon :icon="['far', 'thumbs-up']" size="1x" style="margin-left: 7px; margin-right: 7px;" />
             <strong>{{ commentLike }}</strong> 
@@ -26,7 +26,7 @@
           <a id="comment-dlike-btn" @click.prevent="dislikeComment" href="" class="time">
             <font-awesome-icon :icon="['far', 'thumbs-down']" size="1x" style=" margin-right: 7px; margin-left: 7px;" />
             <strong>{{ commentDislike }}</strong> 
-          </a>
+          </a>          
         </div>
       </div>    
     </div>
@@ -193,19 +193,23 @@ export default {
 
 <style scoped>
 .comment-box {
-  display: flex; 
-  justify-content: space-between; 
-  margin-top: 30px;
+  /* display: flex; 
+  justify-content: space-between;  */
+  margin: 0.5em 0;
   width: 100%;
 }
 .author-box {
-  width: 15%;
+  /* width: 15%; */
+  display: flex;
+  justify-content: space-between;
 }
 .author-box > h6 {
   padding: 0px 10px;
 }
 .content-box {   
-    width: 65%;
+  /* width: 65%; */
+  /* display: block; */
+  padding: 0.5em 0;
 }
 
 .content-box > p {
@@ -214,15 +218,13 @@ export default {
   width: 100%;    
 }
 .btn-box {  
-  width: 20%;
-  margin-left: 1em;
-  position: relative;
-  left: 4em;
+  /* width: 20%;
+  margin-left: 1em; */
+  /* position: relative;   */
 }
 .date-box {
-  display: flex;
-  /* justify-content: end; */
-  width: 100%;  
+  /* display: flex; */
+  /* width: 100%;   */
 }
 .date-box > span {
   width: 70%;
@@ -235,14 +237,15 @@ export default {
   background-color: #F1F3F5;  
   width: 10%;  
   text-align: center;
-  margin-left: 1em;
+  margin: 0 0.5em;
 }
 #time {
   width: auto;
 }
 #report-btn > h6{
-  margin-top: 5px; 
-  margin-right: 5px;
+  /* margin-top: 5px; 
+  margin-right: 5px; */
+  padding-left: 0.1em;
   display: inline;
 }
 
@@ -270,12 +273,13 @@ export default {
 }
 #like-box {
   display: flex;
-  /* justify-content: end; */
-  margin-top: 1em;
+  justify-content: flex-end;
   
 }
-
-@media screen and (min-width: 690px) {
+textarea {
+  height: 10vh;
+}
+/* @media screen and (min-width: 690px) {
   .author-box {
     width: 15%;
   }
@@ -407,7 +411,7 @@ export default {
   }
   .btn-box {
     display: inline;
-    /* margin-left: 1.5em; */
+
   }
   #delete-btn {  
     position: relative;  
@@ -416,12 +420,6 @@ export default {
     width: 20%;
     height: 50%;
   }
-  /* #like-box {
-    display: flex;
-    flex-direction: column;
-    
-    width: auto;
-  } */
   #comment-like-btn {
    text-align: center; 
   }
@@ -434,7 +432,7 @@ export default {
   .content-box > p {
     font-size: 0.8em;
   }
-}
+} */
 
 
 

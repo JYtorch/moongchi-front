@@ -3,7 +3,7 @@
   <div class="top-search">
     <select v-model="category">
       <option value="movies">영화</option>
-      <option value="others">기타</option>
+      <option value="others">리뷰</option>
     </select>
     <!-- <input @input="search" @keydown.enter="search" :value="searchKeyword" @input="changeKeyword" type="text" placeholder="검색어를 입력해 주세요"> -->
     <input @keydown.enter="searchEnter" :value="searchKeyword" @input="changeKeyword" type="text" placeholder="검색어를 입력해 주세요">

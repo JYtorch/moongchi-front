@@ -6,7 +6,8 @@
           <h2>Skyfall: Quantum of Spectre</h2> -->
           </div>
         </div>
-        <div class="title-hd-sm">
+        <span class="time" style="font-size: 20px;">준비중인 페이지입니다.</span>
+        <!-- <div class="title-hd-sm">
     <h4>Videos <span>(8)</span></h4>
   </div>
   <div class="mvsingle-item media-item">
@@ -116,7 +117,7 @@
     <a class="img-lightbox"  data-fancybox-group="gallery" href="images/uploads/image191.jpg" ><img src="images/uploads/image19.jpg" alt=""></a>
     <a class="img-lightbox"  data-fancybox-group="gallery" href="images/uploads/image201.jpg" ><img src="images/uploads/image20.jpg" alt=""></a>
     <a class="img-lightbox"  data-fancybox-group="gallery" href="images/uploads/image211.jpg" ><img src="images/uploads/image2-1.jpg" alt=""></a>
-  </div>
+  </div> -->
     </div>
 </template>
 

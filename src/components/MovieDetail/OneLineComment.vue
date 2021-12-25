@@ -1,30 +1,32 @@
 <template>
     <!-- <h3>Best Marvel movie in my opinion</h3> -->
     <li id="comment-box" style="">  
-
-      <div style="display: flex; justify-content: space-between;">        
-        <p class="time">          
-          <a @click.prevent="$router.push({ name: 'UserProfile', params: {username: oneLineComment.user.username }})" href="#" style="margin: 0 5px"> 
-            {{ oneLineComment.user.nickname }} 
+      
+      <div style="font-size: 0.9em;">        
+        <div style="display: flex; justify-content: space-between">
+          <a @click.prevent="$router.push({ name: 'UserProfile', params: {username: oneLineComment.user.username }})" href="#" style="margin: 0 5px padding-left: 1em; font-family: system-ui; font-size: 1.1em;" class=""> 
+            {{ oneLineComment.user.nickname }}
           </a> 
-          | 
-          <span style="margin: 0 5px;"> 
-            {{ createdAt }} 
-          </span> 
-          | 
-          <a id="delete-btn" @click.prevent="deleteOneLineComment" href="" class="time">X</a>
-          |
-          <a @click.prevent="report" href="#" style="margin: 0 5px;" v-if="isLogin">
-            신고
-          </a>
-        </p>
+          
+          <div class="time" :style="{fontSize: size}">
+            <span style="margin: 0 5px;"> 
+              {{ createdAt }} 
+            </span> 
+            | 
+            <a id="delete-btn" @click.prevent="deleteOneLineComment" href="" class="time">X</a>
+            |
+            <a @click.prevent="report" href="#" style="margin: 0 5px;" v-if="isLogin">
+              신고
+            </a>
+          </div> 
+        </div>
 
       </div>
-        <star-rating :max-rating=10	:rating="oneLineComment.rating" :star-size="15" :read-only="true"></star-rating>
+        <star-rating :max-rating=10	:rating="oneLineComment.rating" :star-size="15" :read-only="true" style="padding: 0.5em;"></star-rating>
 
       <div style="width: 100%">
         
-        <p style="white-space: pre-line;">{{ oneLineComment.content }}</p>
+        <p style="white-space: pre-line; padding: 0.5em;">{{ oneLineComment.content }}</p>
         <div style="display: flex; justify-content: end;">
         <div>
 
@@ -62,7 +64,7 @@ export default {
     return {
       oneLineCommentLike: this.oneLineComment.like_users,
       oneLineCommentDislike: this.oneLineComment.dlike_users,
-      
+      size: null,
     }
   },
   methods: {
@@ -139,6 +141,18 @@ export default {
       return this.oneLineComment.created_at.slice(0, 10) + '   ' + this.oneLineComment.created_at.slice(11, 19)
     },
   },
+  mounted () {
+    if (window.innerWidth <= 425) {
+      this.size = 0.5 + 'em'
+    }
+    window.addEventListener('resize', () => {
+      if (window.innerWidth <= 425) {
+        this.size = 0.5 + 'em'
+      } else {
+        this.size = null
+      }
+     })
+  }
 }
 </script>
 

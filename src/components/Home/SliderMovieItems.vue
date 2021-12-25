@@ -15,18 +15,17 @@
 					<carousel-3d :autoplay="true" :autoplay-timeout="5000" :display="20" :controlsVisible="true" :height="490" :style="{width: width + 'px'}">
 						<slide v-for="(slide, i) in slides" :index="i" :key="i">      
 							<template slot-scope="{ index, isCurrent, leftIndex, rightIndex }">
-								<div class="movie-item" style="width: 100%;">
-									<img :data-index="index" :class="{ current: isCurrent, onLeft: (leftIndex >= 0), onRight: (rightIndex >= 0) }" :src="`https://image.tmdb.org/t/p/original${slide.poster_path}`" style="">
+								<div class="movie-item" style="width: 100%; height: 100%; position:relative; z-index:9998;">									
+									<img id="sliderimg" :data-index="index" :class="{ current: isCurrent, onLeft: (leftIndex >= 0), onRight: (rightIndex >= 0) }" :src="`https://image.tmdb.org/t/p/original${slide.poster_path}`" style="">
 									<div class="hvr-inner">
 										<a @click.prevent="$router.push({ name: 'MovieDetail', params: { id: `${slide.id}`}})" href="moviesingle.html"> Read more <i class="ion-android-arrow-dropright"></i> </a>
 									</div>
-								
-									<div class="title-in">
+									<div class="title-in" style="padding: 1em; background-color: rgba( 0, 0, 0, 0.5 ); width: 100%; margin: 0 0;">
 										<div class="cate">
-											<!-- <span class="blue"><a href="#">Sci-fi</a></span> -->
+											<span class=""><a href="#">{{slide.release_date}}</a></span>
 										</div>
-										<h6><a @click.prevent="$router.push({ name: 'MovieDetail', params: { id: `${slide.id}`}})" href="#" style="font-size: 25px;">{{ slide.title }}</a></h6>
-										<p><i class="ion-android-star"></i><span>{{ Math.round(slide.rating_average * 10) / 10 }}</span> /10</p>
+										<h6 style="margin-left: 30px;"><a @click.prevent="$router.push({ name: 'MovieDetail', params: { id: `${slide.id}`}})" href="#" style="font-size: 1.5em;">{{ slide.title }}</a></h6>
+										<p style="margin-left: 30px;"><i class="ion-android-star"></i><span>{{ Math.round(slide.rating_average * 10) / 10 }}</span> /10</p>
 									</div>            
 								</div>
 							</template>
@@ -60,7 +59,7 @@ export default {
     }
   },
 	methods: {
-		handler () {
+		handdler () {
 			if (425 < window.innerWidth) {
 				this.width = null
 				console.log('425 < window.innerwidth')
@@ -81,14 +80,17 @@ export default {
         .then(res => {          
 					this.slides = res.data['now-playing']
         })
-		this.handler()
+		this.handdler()
   },
 	mounted () {
-		window.addEventListener('resize', this.handler())
+		window.addEventListener('resize', this.handdler)
 	}		
 }
 </script>
 
-<style>
+<style scoped>
+img {
+	background-image: linear-gradient( rgba(0, 0, 0, 0.3), rgba(0, 0, 0, 0.3) );
+}
 
 </style>

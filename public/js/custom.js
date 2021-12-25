@@ -43,10 +43,10 @@ $(function(){
 		});
 	}
 	//js for nav icon 
-	var clickMenubtn = $('#nav-icon1');
-	clickMenubtn.on('click', function(){
-		$(this).toggleClass('open');
-	});
+	// var clickMenubtn = $('#nav-icon1');
+	// clickMenubtn.on('click', function(){
+	// 	$(this).toggleClass('open');
+	// });
 	//js for tabs
 	var tabsClick = $('.tabs .tab-links a, .tab-links-2 a, .tab-links-3 a');
 	var multiItem = $('.slick-multiItem');

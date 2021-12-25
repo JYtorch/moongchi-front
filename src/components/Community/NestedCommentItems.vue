@@ -1,41 +1,44 @@
 <template>
   
-  <div class="comment-box">
+<div>  
+    <div class="comment-box" style="position: inline;">
+      <div class="author-box">      
+      <!-- <span id="reply-mark">└</span> -->
+        <a @click.prevent="$router.push({name: 'UserProfile', params: { username: nestedComment.user.username }})" href=""><h6>{{ nestedComment.user.username }}</h6></a>
+        <div class="date-box">
+          <span id="time" class="time" :style="{fontSize: size}">
+            {{ nestedComment.created_at.slice(0,10) }} {{nestedComment.created_at.slice(11, 19) }}
+          </span>
+          
+          <a id="delete-btn" @click.prevent="deleteNestedComment" href="" class="time">X</a>
+          <a id="report-btn" @click.prevent="reportNestedComment" v-show="isLogin" href="">
+            <h6 class="time">신고</h6>
+          </a>
+        </div>
+      </div>      
 
-    <div class="author-box">
-      
-      <a @click.prevent="$router.push({name: 'UserProfile', params: { username: nestedComment.user.username }})" href=""><h6><span style="">└</span>{{ nestedComment.user.username }}</h6></a>
-    </div>      
+      <div class="content-box">
+        <p>{{ nestedComment.content }}</p>
+      </div>
 
-    <div class="content-box">
-      <p>{{ nestedComment.content }}</p>
-    </div>
-
-    <div class="btn-box">
-      <div class="date-box">
-        <span id="time" class="time">
-          {{ nestedComment.created_at.slice(0,10) }} {{nestedComment.created_at.slice(11, 19) }}
-        </span>
+      <div class="btn-box">
         
-        <a id="delete-btn" @click.prevent="deleteNestedComment" href="" class="time">X</a>
-      </div>
 
-      <div id="like-box">
-        <a id="report-btn" @click.prevent="reportNestedComment" v-show="isLogin" href="">
-          <h6 class="time">신고</h6>
-        </a>
+        <div id="like-box">        
 
-        <a id="comment-like-btn" @click.prevent="likeNestedComment" href="" class="time">
-          <font-awesome-icon :icon="['far', 'thumbs-up']" size="1x" style="margin-left: 7px; margin-right: 7px;" />
-          <strong>{{ nestedComment.like_users.length }}</strong> 
-        </a>
-        <a id="comment-dlike-btn" @click.prevent="dislikeNestedComment" href="" class="time">
-          <font-awesome-icon :icon="['far', 'thumbs-down']" size="1x" style=" margin-right: 7px; margin-left: 7px;" />
-          <strong>{{ nestedComment.dlike_users.length }}</strong> 
-        </a>          
-      </div>
-    </div>          
-  </div>
+          <a id="comment-like-btn" @click.prevent="likeNestedComment" href="" class="time">
+            <font-awesome-icon :icon="['far', 'thumbs-up']" size="1x" style="margin-left: 7px; margin-right: 7px;" />
+            <strong>{{ nestedComment.like_users.length }}</strong> 
+          </a>
+          <a id="comment-dlike-btn" @click.prevent="dislikeNestedComment" href="" class="time">
+            <font-awesome-icon :icon="['far', 'thumbs-down']" size="1x" style=" margin-right: 7px; margin-left: 7px;" />
+            <strong>{{ nestedComment.dlike_users.length }}</strong> 
+          </a>          
+        </div>
+      </div>          
+    </div>
+  
+</div>
     <!-- <div style="margin: 0px 5px;">
       <p style="white-space: pre-line; width: 550px;">{{ nestedComment.content }}</p>
     </div> -->
@@ -56,7 +59,7 @@ export default {
   },
   data () {
     return {
-
+      size: null
     }
   },
   methods: {
@@ -128,28 +131,34 @@ export default {
           alert('이미 신고된 댓글입니다.')
         })
     }
+  },
+  created () {
+    if (window.innerWidth < 350) {
+      this.size = 0.5 + 'em'
+    }
   }
 }
 </script>
 
 <style scoped>
 .comment-box {
-  display: flex; 
-  justify-content: space-between; 
-  margin-top: 30px;
+  margin: 0.5em 0;
   width: 100%;
-  /* margin-left: 2em; */
-  padding: 1em 1em;
-  /* border: 1px solid #9ca9b7 */
+  padding: 1em;
+  background-color: #F1F3F5;
+  border-radius: 10px;
+  margin-left: 1em;
 }
 .author-box {
-  width: 15%;
+  display: flex;
+  justify-content: space-between;  
 }
 .author-box > h6 {
   padding: 0px 10px;
 }
 .content-box {   
-    width: 65%;
+    /* width: 65%; */
+    padding: 0.5em 0;
 }
 
 .content-box > p {
@@ -157,16 +166,20 @@ export default {
   word-break:break-all;
   width: 100%;    
 }
+#reply-mark {
+  position: absolute;
+  left: 7px;  
+  font-size: 1.8em;
+}
 .btn-box {  
-  width: 20%;
+  /* width: 20%;
   margin-left: 1em;
   position: relative;
-  left: 4em;
+  left: 4em; */
 }
 .date-box {
-  display: flex;
-  /* justify-content: end; */
-  width: 100%;  
+  /* display: flex;  
+  width: 100%;   */
 }
 .date-box > span {
   width: 70%;
@@ -179,14 +192,15 @@ export default {
   background-color: #F1F3F5;  
   width: 10%;  
   text-align: center;
-  margin-left: 1em;
+  margin: 0 0.5em;
 }
 #time {
   width: auto;
 }
 #report-btn > h6{
-  margin-top: 5px; 
-  margin-right: 5px;
+  /* margin-top: 5px; 
+  margin-right: 5px; */
+  padding-left: 0.1em;
   display: inline;
 }
 
@@ -214,12 +228,12 @@ export default {
 }
 #like-box {
   display: flex;
-  /* justify-content: end; */
-  margin-top: 1em;
+  justify-content: flex-end;
+  
   
 }
 
-@media screen and (min-width: 690px) {
+/* @media screen and (min-width: 690px) {
   .author-box {
     width: 15%;
   }
@@ -364,7 +378,6 @@ export default {
   }
   .btn-box {
     display: inline;
-    /* margin-left: 1.5em; */
   }
   #delete-btn {  
     position: relative;  
@@ -373,12 +386,6 @@ export default {
     width: 20%;
     height: 50%;
   }
-  /* #like-box {
-    display: flex;
-    flex-direction: column;
-    
-    width: auto;
-  } */
   #comment-like-btn {
    text-align: center; 
   }
@@ -391,5 +398,5 @@ export default {
   .content-box > p {
     font-size: 0.8em;
   }
-}
+} */
 </style>

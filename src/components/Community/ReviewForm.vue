@@ -25,7 +25,7 @@
           <h1 style="text-align: center;">{{ movieTitle }}</h1>		
         <hr>
 
-        <form class="row">
+        <form class="row" style="padding: 0 10vw; margin-bottom: 20vh;">
           <div class="sb-search">
             <h4 for="exampleFormControlInput1" style="margin-bottom: 1em;">Review Title</h4>
             <input type="email" class="form-control" id="exampleFormControlInput1" placeholder="리뷰 제목" v-model.trim="reviewTitle">
@@ -142,8 +142,8 @@ export default {
 }
 </script>
 
-<style>
+<style scoped>
 textarea {
-height: 160px;
-}
+  height: 160px;
+  }
 </style>

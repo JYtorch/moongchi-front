@@ -21,17 +21,19 @@
 			<div class="col-md-12 col-sm-12 col-xs-12">
 				<div class="topbar-filter fw">
 					<p>Found <span>{{ movies.length }} movies</span> in total</p>
-					<label>Sort by:</label>
-					<select disabled>
-						<option value="popularity" style="color: grey;">Popularity Descending</option>
-						<option value="popularity" style="color: grey;">Popularity Ascending</option>
-						<option value="rating" style="color: grey;">Rating Descending</option>
-						<option value="rating" style="color: grey;">Rating Ascending</option>
-						<option value="date" style="color: grey;">Release date Descending</option>
-						<option value="date" style="color: grey;">Release date Ascending</option>
+					
+					<label v-if="!mobileSize">Sort by:</label>
+					<select v-if="!mobileSize" disabled>
+						<option v-if="!mobileSize" value="popularity" style="color: grey;">Popularity Descending</option>
+						<option v-if="!mobileSize" value="popularity" style="color: grey;">Popularity Ascending</option>
+						<option v-if="!mobileSize" value="rating" style="color: grey;">Rating Descending</option>
+						<option v-if="!mobileSize" value="rating" style="color: grey;">Rating Ascending</option>
+						<option v-if="!mobileSize" value="date" style="color: grey;">Release date Descending</option>
+						<option v-if="!mobileSize" value="date" style="color: grey;">Release date Ascending</option>
 					</select>
-					<a @click.prevent="" href="" class="list"><i class="ion-ios-list-outline "></i></a>
-					<a @click.prevent="" href="" class="grid"><i class="ion-grid active"></i></a>
+					<a v-if="!mobileSize" @click.prevent="" href="" class="list"><i class="ion-ios-list-outline "></i></a>
+					<a v-if="!mobileSize" @click.prevent="" href="" class="grid"><i class="ion-grid active"></i></a>
+					
 				</div>
 				<div class="flex-wrap-movielist mv-grid-fw">
             <movie-list-item v-for="movie in movies" :key="movie.id" :movie="movie"></movie-list-item>									
@@ -66,7 +68,6 @@
 </div>
 		  <infinite-loading @infinite="getMovies"></infinite-loading>
 		</div>
-
 </template>
 
 <script>
@@ -86,6 +87,7 @@ export default {
     return {
 			page: 1,
       movies: [],
+			mobileSize: false
     }
   },
   methods: {
@@ -109,8 +111,21 @@ export default {
         }
 
       });
-    }
-  },  
+    },
+		handdler () {
+			if (window.innerWidth < 768) {
+				this.mobileSize = true
+			} else {
+				this.mobileSize = false
+			}
+		}
+  },
+	mounted () {
+		if (window.innerWidth < 768) {
+			this.mobileSize = true
+		}
+		window.addEventListener('resize', this.handdler)
+	}
 }
 </script>
 

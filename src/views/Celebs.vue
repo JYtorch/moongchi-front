@@ -17,7 +17,7 @@
 	</div>
 </div>
 <div class="page-single">
-	<div class="container">
+	<div class="container" style="width: 80%;">
 		<div class="row">
 			<!-- <div class="col-md-12 col-sm-12 col-xs-12"> -->
         <celeb-item v-for="celeb in celebs" :key="celeb.id" :celeb="celeb"></celeb-item>

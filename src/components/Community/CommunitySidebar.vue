@@ -1,5 +1,5 @@
 <template>
-  <div class="sidebar">
+  <div class="sidebar" style="margin-left: 0px; padding: 0 1em;">
     <div class="sb-search sb-it">
       <h4 class="sb-title">Search</h4>
       <input @keydown.enter="searchReview" :value="searchKeyword" @input="changeKeyword" type="text" placeholder="Enter keywords">

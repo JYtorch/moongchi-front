@@ -1,7 +1,7 @@
 <template>
 	<div class="login-html">
-		<input id="tab-1" type="radio" name="tab" class="sign-in" :checked="loginChecked"><label for="tab-1" class="tab">Log In</label>
-		<input id="tab-2" type="radio" name="tab" class="sign-up" :checked="signupChecked"><label for="tab-2" class="tab">Sign Up</label>
+		<input id="tab-1" type="radio" name="tab" class="sign-in" :checked="loginChecked"><label @click="toggle" ref="tab1" for="tab-1" class="tab"><input type="button" style="position: absolute; opacity: 0;" value="LOG IN">Log In</label>
+		<input id="tab-2" type="radio" name="tab" class="sign-up" :checked="signupChecked"><label @click="toggle" ref="tab2" for="tab-2" class="tab"><input type="button" style="position: absolute; opacity: 0;" value="SIGN UP"> Sign Up</label>
 		<div class="login-form">
 			<div class="sign-in-htm">
 				<div class="group">
@@ -58,6 +58,9 @@ const API = process.env.VUE_APP_BACKEND_URL
 
 export default {
   name: 'LoginForm2',
+	props: {
+		checkedValue: String
+	},
   data () {
     return {
       loginCredentials: {
@@ -70,8 +73,9 @@ export default {
         password: null,
         passwordConfirmation: null,
       },
-      loginChecked: true,
-      signupChecked: false,
+      loginChecked: this.checkedValue == 'loginChecked' ? true: false,
+      signupChecked: this.checkedValue == 'signupChecked' ? true: false,
+			tabIndex: 1
     }
   },
   methods: {
@@ -89,7 +93,7 @@ export default {
 					this.$router.go()
         })
         .catch(err => {
-					alert('존재하지 않는 계정이거나 비밀번호가 틀립니다.')
+					alert('정보를 정확히 입력해주세요.')
           console.log(err)
         })
     },
@@ -113,7 +117,18 @@ export default {
           console.log(err)
 					alert('정보를 정확히 입력해주세요.')
         })
-    }
+    },
+		toggle () {
+			console.log('click')
+			if (this.loginChecked) {
+				this.loginChecked = !this.loginChecked				
+				this.signupChecked = !this.signupChecked
+			} else if	(this.signupChecked) {
+				this.loginChecked = !this.loginChecked				
+				this.signupChecked = !this.signupChecked
+			}
+			// console.log('login:',  this.loginChecked, 'signup:', this.signupChecked)
+		}
   },
 }
 </script>

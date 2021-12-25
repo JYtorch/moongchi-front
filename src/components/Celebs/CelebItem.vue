@@ -1,6 +1,6 @@
 <template>
   <div class="movie-item-style-12 userrate">
-    <img :src="`https://image.tmdb.org/t/p/original${celeb.profile_path}`" alt="">
+    <img :src="`https://image.tmdb.org/t/p/original${celeb.profile_path}`" alt="" style="">
     <div class="mv-item-infor">
       <h3><a href="#">{{ celeb.name }}</a></h3>
 
@@ -16,15 +16,15 @@
       <carousel-3d :disable3d="true" :space="250" :autoplay="false" :autoplay-timeout="5000" :display="20" :controlsVisible="true" :clickable="false" :width="230" :height="325"> 
         <slide v-for="(slide, i) in celeb.movies" :index="i" :key="i">
           <template slot-scope="{ index, isCurrent, leftIndex, rightIndex }">
-            <div class="movie-item" style="width: 100%;">								
+            <div class="movie-item" style="width: 100%; height: 100%; position:relative; z-index:9998;">								
               <img :data-index="index" :class="{ current: isCurrent, onLeft: (leftIndex >= 0), onRight: (rightIndex >= 0) }" :src="`https://image.tmdb.org/t/p/original${slide.poster_path}`">
               <div class="hvr-inner">
                 <a @click.prevent="$router.push({name: 'MovieDetail', params: {id: slide.id}})" href="moviesingle.html"> Read more <i class="ion-android-arrow-dropright"></i> </a>
               </div>
           
-              <div class="title-in" style="margin-bottom: 40px;">    
-                <h6><a href="#">{{ slide.title }}</a></h6>
-                <p><i class="ion-android-star"></i><span>{{ slide.rating_average }}</span> /10</p>
+              <div class="title-in" style="padding: 1em; background-color: rgba( 0, 0, 0, 0.5 ); width: 100%; margin: 0 0;">    
+                <h6 style="margin-left: 30px;"><a href="#">{{ slide.title }}</a></h6>
+                <p style="margin-left: 30px;"><i class="ion-android-star"></i><span>{{ slide.rating_average }}</span> /10</p>
               </div>
             </div>
           </template>
