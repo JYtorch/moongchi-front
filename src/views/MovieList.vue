@@ -104,7 +104,7 @@ export default {
 
           // this.$store.dispatch('getMovies', this.page)
           this.movies.push(...res.data)
-					console.log(this.movies)
+					// console.log(this.movies)
           $state.loaded();
         } else {
           $state.complete();

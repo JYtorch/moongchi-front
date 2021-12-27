@@ -104,7 +104,7 @@ export default {
 				headers: this.setToken()
 			})
 				.then(res => {
-					console.log(res.data)
+					// console.log(res.data)
 					this.userData = res.data
 					this.favoriteMovies = res.data.like_movies
 					this.profileName = res.data.username
@@ -113,7 +113,7 @@ export default {
 							this.isFollowing = true
 						}
 					}
-					console.log(this.profileName)
+					// console.log(this.profileName)
 				})
 				.catch(err => {
 					console.log(err)
@@ -150,8 +150,8 @@ export default {
 
 	created () {
 		this.getProfile()
-		console.log('태어났다!!!')		
-		console.log(this.currentTab)
+		// console.log('태어났다!!!')		
+		// console.log(this.currentTab)
 	},
 	computed: {
 		myProfile () {

@@ -212,11 +212,11 @@ export default {
       const token = this.$store.state.token
       const decoded = jwt_decode(token)
       const name = this.oneLineComments.find(comment => decoded.username === comment.user.username)
-      console.log(name)
+      // console.log(name)
       if (name) {
-        this.writer = true
-      } else {
         this.writer = false
+      } else {
+        this.writer = true
       }
       if (this.oneLineComments.length < this.commentsData.length) {
         this.moreItems = true

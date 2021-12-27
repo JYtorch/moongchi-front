@@ -127,7 +127,7 @@ export default {
 					this.reviewTitle = res.data.title
 					this.movieTitle = res.data.movie.title
 					this.posterPath = res.data.movie.poster_path
-					console.log(this.item)
+					// console.log(this.item)
 					const token = this.$store.state.token
 					const decoded = jwt_decode(token)
 					// console.log(this.isLogin)

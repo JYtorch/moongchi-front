@@ -72,7 +72,7 @@ export default {
             this.page += 1;
             // this.$store.dispatch('getMovies', this.page)            
             this.reviews.push(...res.data)
-            console.log(this.reviews)
+            // console.log(this.reviews)
             $state.loaded();
           } else {
             $state.complete();
