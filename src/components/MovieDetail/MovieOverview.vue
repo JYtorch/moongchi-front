@@ -198,6 +198,7 @@ export default {
 				this.like = res.data.like_users
         this.dislike = res.data.dlike_users
         this.oneLineComments = res.data.rating_set.reverse().slice(0, 3 * this.page)
+        this.commentsData = res.data.rating_set.reverse()
 				console.log(this.oneLineComments, '데이터 갱신 완료!')
         this.checkWriter()
 			})
@@ -205,7 +206,7 @@ export default {
     getMoreComments () {
       this.page += 1
       this.getData()
-      console.log(this.oneLineComments)
+      // console.log(this.oneLineComments)
 
     },
     checkWriter () {
