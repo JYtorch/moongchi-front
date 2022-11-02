@@ -54,7 +54,7 @@ export default {
       if (this.searchKeyword.length >= 2) {
         this.search(this.searchKeyword)
       }
-    }, 2000)
+    }, 1000)
   }
 }
 </script>

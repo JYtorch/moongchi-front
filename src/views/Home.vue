@@ -67,7 +67,7 @@ export default {
         url: `${API}/api/v1/movies/mainmovies/` 
       })
         .then(res => {
-          console.log(res.data)        
+          // console.log(res.data)        
           this.nowPlayingMovieItems = res.data['now-playing']
           this.popularMovieItems = res.data['popular']
           this.playlistMovieItems = res.data['high-rates']
@@ -84,7 +84,7 @@ export default {
           headers: {Authorization: `JWT ${localStorage.getItem('jwt')}`}
         })
         .then(res => {
-          console.log(res.data)
+          // console.log(res.data)
           this.recommendedMovieItems = res.data
         })
         .catch(err => {
@@ -111,7 +111,7 @@ export default {
     if (this.$store.state.token) {
       this.getRecommended()
       this.isLoginUser = true
-      console.log(this.RecommendedMovieItems)
+      // console.log(this.RecommendedMovieItems)
     }
     this.getMovieItems()
     // this.toggleLoading()
