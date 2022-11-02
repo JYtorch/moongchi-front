@@ -36,10 +36,22 @@
 					
 				</div>
 				<div class="flex-wrap-movielist mv-grid-fw">
-            <movie-list-item v-for="movie in movies" :key="movie.id" :movie="movie"></movie-list-item>									
+            	<movie-list-item v-for="movie in movies" :key="movie.id" :movie="movie"></movie-list-item>									
 				</div>
         
 
+		  		<infinite-loading @infinite="getMovies">					
+					<div slot="spinner" class="flex-wrap-movielist mv-grid-fw">
+						<div v-for="i in Array(30).fill(0).map((e, i) => i + 1)" :key="i">
+							<div class="movie-item-style-2 movie-item-style-1">
+								<div style="width: 170px; height: 255px;">
+									<skeleton-box :width="'100%'" :height="'100%'"></skeleton-box>
+								</div>
+							</div>
+						</div>
+					</div>
+					<div slot="no-more">No more message</div>					
+				</infinite-loading>
 				<div class="topbar-filter">
           
 					<label>Movies per page:</label>
@@ -47,32 +59,18 @@
 						<option value="range">20 Movies</option>
 						<option value="saab">10 Movies</option>
 					</select>
-					  
+				</div>	
 
-					<!-- <div class="pagination2">
-						<span>Page 1 of 2:</span>
-						<a class="active" href="#">1</a>
-						<a href="#">2</a>
-						<a href="#">3</a>
-						<a href="#">...</a>
-						<a href="#">78</a>
-						<a href="#">79</a>
-						<a href="#"><i class="ion-arrow-right-b"></i></a>
-					</div> -->
-				</div>
-
-				
 			</div>
 		</div>
 	</div>
 </div>
-		  <infinite-loading @infinite="getMovies"></infinite-loading>
 		</div>
 </template>
 
 <script>
 import InfiniteLoading from 'vue-infinite-loading';
-
+import SkeletonBox from '../components/SkeletonBox.vue'
 import axios from 'axios'
 import MovieListItem from '../components/MovieList/MovieListItem.vue'
 const API = process.env.VUE_APP_BACKEND_URL
@@ -81,13 +79,14 @@ export default {
   components: { 
 		MovieListItem, 
 		InfiniteLoading,
+		SkeletonBox
 	},
   name: 'MovieList',
   data () {
     return {
-			page: 1,
-      movies: [],
-			mobileSize: false
+		page: 1,
+      	movies: [],
+		mobileSize: false,		
     }
   },
   methods: {

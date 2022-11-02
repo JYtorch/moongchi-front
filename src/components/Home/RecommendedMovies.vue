@@ -5,7 +5,7 @@
 		<a @click.prevent="$router.push({name: 'MovieList'})" href="#" class="viewall">View all <i class="ion-ios-arrow-right"></i></a>
 	</div>
 	<div class="row">
-		<carousel-3d :disable3d="true" :space="395" :autoplay="true" :autoplay-timeout="5000" :display="20" :controlsVisible="true" :height="510" :clickable="false">
+		<carousel-3d v-if="isRendered && !error && !isLoading" :disable3d="true" :space="395" :autoplay="true" :display="20" :controlsVisible="true" :height="480" :clickable="false">
 			<slide v-for="(slide, i) in slides" :index="i" :key="i">
 				<template slot-scope="{ index, isCurrent, leftIndex, rightIndex }">												
           <div class="movie-item" style="width: 100%; height: 100%; position:relative; z-index:9998;">
@@ -22,6 +22,12 @@
 				</template>
 			</slide>
 		</carousel-3d>
+    <p v-show="isRendered && error && !isLoading">데이터를 불러올 수 없습니다. 다시 로그인을 하거나, 잠시 후 다시 시도해주세요.</p>
+    <carousel-3d v-show="!isRendered || isLoading" :disable3d="true" :space="395" :autoplay="true" :autoplay-timeout="5000" :display="20" :controlsVisible="true" :height="480" :clickable="false">
+			<slide v-for="(slide, i) in 100" :index="i" :key="i" style="border-radius: 10px; border-width: 0px">
+        <skeleton-box :height="'100%'" :width="'100%'" style="position: absolute" />
+			</slide>
+		</carousel-3d>
 	</div>
 	<hr>
 	<br>
@@ -29,48 +35,44 @@
 </template>
 
 <script>
-import axios from 'axios'
 import { Carousel3d, Slide } from 'vue-carousel-3d';
-const API = process.env.VUE_APP_BACKEND_URL
+import SkeletonBox from '../SkeletonBox.vue'
 
 export default {
   components: {
 		Carousel3d,
-    Slide
+    Slide,
+    SkeletonBox
   },
   name: 'RecommendedMovies',
+  props: {
+    slides: Array,
+    width: Number
+  },
   data () {
-    return {
-      slides: 20,
-			
+    return {      
+			isRendered: false,
+      error: true,
+      isLoading: true
     }
   },
   methods: {
-    setToken: function () {
-      const token = localStorage.getItem('jwt')
-      const config = {
-        Authorization: `JWT ${token}`
+    
+  },
+  watch: {
+		slides () {
+      if (this.slides) {
+        this.isRendered = true
+      } else {
+        this.error = true
       }
-      return config
-    },
-    getRecommended () {
-      axios({
-          method: 'get',
-          url: `${API}/api/v1/movies/recommended/`,          
-          headers: this.setToken()
-        })
-        .then(res => {
-          // console.log(res.data)
-          this.slides = res.data
-        })
-        .catch(() => {
-          // console.log(err)
-        })
-    }
-  },
-  created () { 
-    this.getRecommended()
-  },
+		},
+    isRendered () {
+			setTimeout(function () {
+				this.isLoading = false
+			}.bind(this), 1000)
+		}
+	}
 }
 </script>
 

@@ -8,83 +8,77 @@
 				<a href="https://twitter.com/jack"><i class="ion-social-twitter"></i></a>
 				<a href="https://www.youtube.com/c/%EC%8A%B9%EC%9A%B0%EC%95%84%EB%B9%A0"><i class="ion-social-youtube"></i></a>
 			</div>
-	    	<!-- <div  class="slick-multiItemSlider"> -->
-					<!-- <slider-movie-item 
-						:movieItem="movieItem"
-					></slider-movie-item> -->
-					<carousel-3d :autoplay="true" :autoplay-timeout="5000" :display="20" :controlsVisible="true" :height="490" :style="{width: width + 'px'}">
-						<slide v-for="(slide, i) in slides" :index="i" :key="i">      
-							<template slot-scope="{ index, isCurrent, leftIndex, rightIndex }">
-								<div class="movie-item" style="width: 100%; height: 100%; position:relative; z-index:9998;">									
-									<img id="sliderimg" :data-index="index" :class="{ current: isCurrent, onLeft: (leftIndex >= 0), onRight: (rightIndex >= 0) }" :src="`https://image.tmdb.org/t/p/original${slide.poster_path}`" style="">
-									<div class="hvr-inner">
-										<a @click.prevent="$router.push({ name: 'MovieDetail', params: { id: `${slide.id}`}})" href="moviesingle.html"> Read more <i class="ion-android-arrow-dropright"></i> </a>
-									</div>
-									<div class="title-in" style="padding: 1em; background-color: rgba( 0, 0, 0, 0.5 ); width: 100%; margin: 0 0;">
-										<div class="cate">
-											<span class=""><a href="#">{{slide.release_date}}</a></span>
-										</div>
-										<h6 style="margin-left: 30px;"><a @click.prevent="$router.push({ name: 'MovieDetail', params: { id: `${slide.id}`}})" href="#" style="font-size: 1.5em;">{{ slide.title }}</a></h6>
-										<p style="margin-left: 30px;"><i class="ion-android-star"></i><span>{{ Math.round(slide.rating_average * 10) / 10 }}</span> /10</p>
-									</div>            
+			<carousel-3d v-show="isRendered && !isLoading" :autoplay="true" :display="20" :controlsVisible="true" :height="490" :style="{width: width + 'px'}" >
+				<slide v-for="(slide, i) in slides" :index="i" :key="i">      
+					<template slot-scope="{ index, isCurrent, leftIndex, rightIndex }">
+						<div class="movie-item" style="width: 100%; height: 100%; position:relative; z-index:9998;">									
+							<img id="sliderimg" :data-index="index" :class="{ current: isCurrent, onLeft: (leftIndex >= 0), onRight: (rightIndex >= 0) }" :src="`https://image.tmdb.org/t/p/original${slide.poster_path}`" style="">
+							<div class="hvr-inner">
+								<a @click.prevent="$router.push({ name: 'MovieDetail', params: { id: `${slide.id}`}})" href="moviesingle.html"> Read more <i class="ion-android-arrow-dropright"></i> </a>
+							</div>
+							<div class="title-in" style="padding: 1em; background-color: rgba( 0, 0, 0, 0.5 ); width: 100%; margin: 0 0;">
+								<div class="cate">
+									<span class=""><a href="#">{{slide.release_date}}</a></span>
 								</div>
-							</template>
-						</slide>
-					</carousel-3d>
-	    		
-	    	<!-- </div> -->
+								<h6 style="margin-left: 30px;"><a @click.prevent="$router.push({ name: 'MovieDetail', params: { id: `${slide.id}`}})" href="#" style="font-size: 1.5em;">{{ slide.title }}</a></h6>
+								<p style="margin-left: 30px;"><i class="ion-android-star"></i><span>{{ Math.round(slide.rating_average * 10) / 10 }}</span> /10</p>
+							</div>
+						</div>
+					</template>
+				</slide>					
+			</carousel-3d>
+			<carousel-3d v-show="!isRendered || isLoading" :display="20" :height="490" :style="{width: width + 'px'}" >
+				<slide v-for="(slide, i) in 7" :index="i" :key="i" style="border-width: 0px; border-radius: 10px;">
+					<skeleton-box :height="'100%'" :width="'100%'" style="border-radius: 5%; position: absolute; border-radius: 10px;" />
+				</slide>					
+			</carousel-3d>
 	    </div>
 	</div>
 </div>
 </template>
 
 <script>
-import axios from 'axios'
 import { Carousel3d, Slide } from 'vue-carousel-3d';
-const API = process.env.VUE_APP_BACKEND_URL
+import SkeletonBox from '../SkeletonBox.vue';
 
-// import SliderMovieItem from './SliderMovieItem.vue'
 export default {
-  components: { 
-		// SliderMovieItem 
-		Carousel3d,
-		Slide
+  	components: { 
+			Carousel3d,
+			Slide,
+    		SkeletonBox
 		},
-  name: 'SliderMovieItems',
+	props: {
+		slides: Array,
+		width: Number,		
+		},
+	name: 'SliderMovieItems',
 	data () {
-    return {
-			slides: 20,			
-			width: null
-			
-    }
-  },
+		return {			
+			isRendered: false,
+			isLoading: true,
+		}
+  	},
 	methods: {
-		handdler () {
-			if (425 < window.innerWidth) {
-				this.width = null
-				console.log('425 < window.innerwidth')
-			}	else if (window.innerWidth <= 375 ) {
-				console.log('window.innerwidth <= 375')
-				this.width = 300
-			} else {
-				this.width = 350
-				console.log('375 < window.innerwidth <= 425')
-			}
+		toggleLoading () {
+			this.isLoading = false
 		}
 	},
-  created () {
-		axios({
-			method: 'get',
-        url: `${API}/api/v1/movies/mainmovies/` 
-      })
-        .then(res => {          
-					this.slides = res.data['now-playing']
-        })
-		this.handdler()
-  },
-	mounted () {
-		window.addEventListener('resize', this.handdler)
-	}		
+  	created () {
+	
+  	},
+	mounted () {		
+		// window.addEventListener('resize', this.handdler)
+	},
+	watch: {
+		slides () {			
+			this.isRendered = true
+		},
+		isRendered () {
+			setTimeout(function () {
+				this.isLoading = false
+			}.bind(this), 3000)
+		}
+	}
 }
 </script>
 
