@@ -11,6 +11,8 @@
 </template>
 
 <script>
+import {debounce} from 'lodash'
+
 export default {
   name: 'TopSearchForm',
   data () {
@@ -21,6 +23,7 @@ export default {
   },
   methods: {
     search () {
+      console.log("검색 시작")
       if (this.category === 'movies') {
         this.searchMovie()
       } else {
@@ -28,6 +31,7 @@ export default {
       }
     },    
     searchMovie () {
+      // console.log("무비 검색")
       if (this.searchKeyword.trim().length >= 1) {
         this.$router.push({ name: 'MovieListSearch', query: {query: `${this.searchKeyword}` }}).catch(()=>{})        
       } 
@@ -35,6 +39,7 @@ export default {
       
     },
     searchReview () {
+      // console.log("리뷰 검색")
       if (this.searchKeyword.trim().length) {
         this.$router.push({ name: 'CommunitySearch', query: {query: `${this.searchKeyword}` }}).catch(()=>{})
       } 
@@ -43,16 +48,13 @@ export default {
     },
     searchEnter () {
       this.searchKeyword = null
-    }, 
-
-
-    changeKeyword (e) {
+    },     
+    changeKeyword: debounce (function (e) {      
       this.searchKeyword = e.target.value
-      this.search(this.searchKeyword)
-      // if (this.searchKeyword.length >= 2) {
-      //   this.search(this.searchKeyword)
-      // }
-    }
+      if (this.searchKeyword.length >= 2) {
+        this.search(this.searchKeyword)
+      }
+    }, 2000)
   }
 }
 </script>

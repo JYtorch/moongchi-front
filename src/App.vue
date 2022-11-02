@@ -1,21 +1,13 @@
 <template>
   <div id="app">
-    <!--preloading-->
-    <div id="preloader">
-        <img class="logo" src="./assets/뭉치.png" alt="" style="border-radius : 30%">
-        <div id="status">
-            <span></span>
-            <span></span>
-        </div>
-    </div>
-    <!--end of preloading-->
+    <preloader v-if="isLoading" />
     <!-- <login-form></login-form>
     <signup-form></signup-form> -->
 
 
       
       <Header/>
-      <router-view :key="$route.fullPath" />
+      <router-view :key="$route.fullPath" :toggleLoading="toggleLoading" />
       <Footer/>
 
 
@@ -29,20 +21,27 @@
 // import LoginForm2 from './components/Account/LoginForm2.vue'
 import Footer from './components/Footer.vue'
 import Header from './components/Header.vue'
+import Preloader from './views/Preloader.vue'
+
 export default {
   components: { 
     // SignupForm, 
     // LoginForm, 
     Footer,
     Header,
+    Preloader,
 
   },
   data () {
     return {
-      clickLogin: true
+      clickLogin: true,
+      isLoading: false,
     }
   },
-  methods: {  
+  methods: {
+    toggleLoading (bool) {      
+      this.isLoading = bool      
+    }
     // showModal () {
     //   this.$modal.show(
     //   LoginForm2,  
