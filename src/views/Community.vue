@@ -22,13 +22,10 @@
 	<div class="container">
 		<div class="row">
 			<div class="col-md-9 col-sm-12 col-xs-12">				
-          <review-item v-for="(review, index) in reviews" :key="index" :review="review"></review-item>				
+        <review-item v-for="(review, index) in reviews" :key="index" :review="review"></review-item>
 			</div>
-
-
 			<div class="col-md-3 col-sm-12 col-xs-12" style="position: sticky; top: 100px;">
-        <community-sidebar></community-sidebar>
-		
+        <community-sidebar></community-sidebar>		
 			</div>
 		</div>
 	</div>
@@ -40,7 +37,7 @@
 <script>
 import axios from 'axios'
 import InfiniteLoading from 'vue-infinite-loading';
-
+// import SkeletonBox from '../components/SkeletonBox.vue'
 import CommunitySidebar from '../components/Community/CommunitySidebar.vue'
 import ReviewItem from '../components/Community/ReviewItem.vue'
 const API = process.env.VUE_APP_BACKEND_URL
@@ -49,38 +46,45 @@ export default {
   components: { 
     CommunitySidebar,
     ReviewItem,
-		InfiniteLoading 
+		InfiniteLoading,
+    // SkeletonBox
   },
   name: 'Community',
   data () {
     return {
       page: 1,
       reviews: [],
+      isLoading: false
     }
   },
 	methods: {
-    getReviews ($state) {      
+    getReviews ($state) {
+      this.isLoading = true 
       axios({
 				method: 'get',
 				url: `${API}/api/v1/community/reviewlist/${this.page}/`
 			})
 				
-      .then((res) => {
-        setTimeout(() => {
-          if (res.data.length) {
-            // console.log(this.page, res.data)
-            this.page += 1;
-            // this.$store.dispatch('getMovies', this.page)            
-            this.reviews.push(...res.data)
-            // console.log(this.reviews)
-            $state.loaded();
-          } else {
-            $state.complete();
-          }
-        }, 250)
+      .then((res) => {        
+        if (res.data.length) {
+          // console.log(this.page, res.data)
+          this.page += 1;
+          // this.$store.dispatch('getMovies', this.page)            
+          this.reviews.push(...res.data)
+          // console.log(this.reviews)
+          $state.loaded();
+          this.isLoading = false
+        } else {
+          $state.complete();
+          this.isLoading = false
+        }        
       }
 
-      );
+      )
+      .catch((err) => {
+        console.log(err)
+        this.isLoading = false
+      })
     },
     getFirst () {
       axios({
@@ -136,4 +140,34 @@ export default {
   padding: 10px;
   width: 100%;
   }
+
+@media screen and (max-width: 321px) {
+  #card {
+    height: 70vh;
+  }
+}
+@media screen and (min-width: 321px) and (max-width: 376px) {
+  #card {
+    height: 80vh;
+  }
+  /* #img {
+    height: 100%;
+  } */
+  
+}
+@media screen and (min-width: 376px) and (max-width: 992px) {
+  #card {
+    height: 85vh;
+  }    
+}
+@media screen and (min-width: 992px) and (max-width: 1200px) {
+  #card {
+    /* height: 70h; */
+  }
+}
+@media screen and (min-width: 1200px) {
+  #card {
+    height: 55vh;
+  }
+}
 </style>
