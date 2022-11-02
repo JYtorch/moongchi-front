@@ -1,10 +1,8 @@
 <template>
   <div id="app">
-    <preloader v-if="isLoading" />
+    <preloader />
     <!-- <login-form></login-form>
     <signup-form></signup-form> -->
-
-
       
       <Header/>
       <router-view :key="$route.fullPath" :toggleLoading="toggleLoading" />
